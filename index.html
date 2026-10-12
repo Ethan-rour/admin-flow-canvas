@@ -135,18 +135,16 @@
     const $=(s,r=document)=>r.querySelector(s), clamp=(n,a,b)=>Math.min(b,Math.max(a,n));
     const uid=()=>crypto.randomUUID?crypto.randomUUID():`${Date.now()}-${Math.random()}`;
     const esc=(v='')=>String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
-    const demo=()=>({activeId:'demo',openIds:['demo'],flows:[{id:'demo',name:'文件审批与归档',view:{x:0,y:0,scale:1},nodes:[
-      {id:'m1',parentId:null,type:'main',title:'接收并核对材料',summary:'核对事项名称、申请部门、联系人和附件版本。',details:'材料齐全后登记接收时间；需要补件时记录内容及返回日期。',done:true,x:AXIS_X-MAIN_W/2,y:230},
-      {id:'t1',parentId:null,type:'anchor',title:'时间轴节点',summary:'',details:'',done:false,x:AXIS_X-10,y:470},
-      {id:'t1r1',parentId:'t1',type:'record',title:'环节间备案',summary:'记录两个主线步骤之间出现的临时情况。',details:'此方框由时间轴圆点直接拉出。',done:false,x:1450,y:420},
-      {id:'r1',parentId:'m1',type:'record',title:'接收备案',summary:'登记接收渠道、材料清单和文件版本。',details:'这是从主线拉出的一级备案。',done:false,x:1450,y:250},
-      {id:'r1a',parentId:'r1',type:'solution',title:'电子材料命名方案',summary:'纸质文件与电子文件采用相同名称。',details:'这是备案节点继续拉出的二级方案。',done:false,x:1020,y:300},
-      {id:'r1b',parentId:'r1',type:'record',title:'补件记录',summary:'记录缺失材料、通知时间和补齐日期。',details:'同一个备案节点可以拉出多个下级方框。',done:false,x:1170,y:500},
-      {id:'m2',parentId:null,type:'main',title:'提交负责人审批',summary:'整理事项摘要和需要决策的重点，提交审批。',details:'右侧可填写负责人批准文字、修改意见和批准日期。',done:false,x:AXIS_X-MAIN_W/2,y:570},
-      {id:'a1',parentId:'m2',type:'alert',title:'审批时限预警',summary:'临近截止时间仍未收到审批反馈。',details:'记录已提醒的时间、方式和联系人。',done:false,x:2200,y:590},
-      {id:'s1',parentId:'a1',type:'solution',title:'催办与替代方案',summary:'先提示截止时间，紧急事项同步准备替代审批。',details:'预警节点也可以继续拉出处理方案。',done:false,x:2580,y:640},
-      {id:'m3',parentId:null,type:'main',title:'执行并反馈结果',summary:'根据批准内容执行，记录交付结果与遗留事项。',details:'完成后勾选，下一主线环节会自动突出。',done:false,x:AXIS_X-MAIN_W/2,y:900},
-      {id:'m4',parentId:null,type:'main',title:'整理备案并归档',summary:'汇总材料、批准记录、执行结果和往来信息。',details:'填写归档位置、文件编号和查询方式。',done:false,x:AXIS_X-MAIN_W/2,y:1230}
+    const demo=()=>({activeId:'demo',openIds:['demo'],flows:[{id:'demo',name:'中学团体参观接待',view:{x:0,y:0,scale:1},nodes:[
+      {id:'m1',parentId:null,type:'main',title:'接收中学团体并审核',summary:'根据中学的高考录取层次/往年同水平学校录取比例/我校招生人数，以及对方人数、时间、需求，综合判断是否接待',details:'',done:false,x:AXIS_X-MAIN_W/2,y:300},
+      {id:'group-type',parentId:'m1',type:'record',title:'团体类型',summary:'包含中学师生、中学家庭、中学教师、公益基金会、VIP家庭团体。',details:'有通过我联系的，详细了解对方院校层次、需求，告知钟老师，进行筛选。',done:false,x:1250,y:270},
+      {id:'t1',parentId:null,type:'anchor',title:'时间轴节点',summary:'',details:'',done:false,x:AXIS_X-12,y:590},
+      {id:'m2',parentId:null,type:'main',title:'做参观流程草案',summary:'根据团体来访时间和需求，设计参观流程。',details:'',done:false,x:AXIS_X-MAIN_W/2,y:680},
+      {id:'lecture',parentId:'m2',type:'record',title:'讲座安排',summary:'1、对方明确要求讲座\n2、参观时间在2个小时以上\n联系Anny老师约讲座教授',details:'可以在需求主题范围内优先安排熟悉的、质量好的讲座，也可结合对方团体学生或老师专业类别和报考倾向选择讲座教授',done:false,x:2460,y:470},
+      {id:'route',parentId:'m2',type:'record',title:'参观路线安排',summary:'若对方无具体要求，根据对方人员构成安排，人数过多可安排自由参观，在图书馆多安排向导和疏散',details:'下园\n礼文堂沙盘、重力美术馆、中央大道、TC101艺术展、图书馆、逸夫书院\n涂辉龙重点实验室：AIE实验室、科比尔卡实验室、瓦谢尔实验室\n上园\n重点书院',done:false,x:2460,y:780},
+      {id:'no-lecture',parentId:'lecture',type:'record',title:'若无讲座安排',summary:'1、招办老师自己做招生宣讲流程\n2、可以找学生分享（需要审核PPT和演讲质量）',details:'',done:false,x:3000,y:400},
+      {id:'lecture-alert',parentId:'lecture',type:'alert',title:'预防教授遗忘或突发情况',summary:'1、对方同意邀请后，邮箱发送对方会议议程，方便对方在日历中查看日程安排\n2、在参观当天前1-2天，邮件确认出席',details:'',done:false,x:3000,y:670},
+      {id:'m3',parentId:null,type:'main',title:'',summary:'.',details:'',done:false,x:AXIS_X-MAIN_W/2,y:1100}
     ]}]});
     function normalizeState(raw){
       if(!raw||!Array.isArray(raw.flows))return demo();
@@ -160,7 +158,12 @@
       const activeId=openIds.includes(String(raw.activeId))?String(raw.activeId):(openIds[0]||null);
       return{activeId,openIds,flows};
     }
-    function loadState(){try{const saved=localStorage.getItem(STORAGE_KEY);return saved?normalizeState(JSON.parse(saved)):demo()}catch(_){return demo()}}
+    function isUntouchedLegacyDemo(raw){
+      if(!raw||!Array.isArray(raw.flows)||raw.flows.length!==1)return false;
+      const f=raw.flows[0],nodes=Array.isArray(f?.nodes)?f.nodes:[];
+      return f?.id==='demo'&&f?.name==='文件审批与归档'&&nodes.length===11&&nodes.some(n=>n?.id==='m1'&&n?.title==='接收并核对材料')&&nodes.some(n=>n?.id==='m4'&&n?.title==='整理备案并归档');
+    }
+    function loadState(){try{const saved=localStorage.getItem(STORAGE_KEY);if(!saved)return demo();const raw=JSON.parse(saved);return isUntouchedLegacyDemo(raw)?demo():normalizeState(raw)}catch(_){return demo()}}
     let state=loadState(),selectedId=null,mode='select',gesture=null,spaceDown=false,saveTimer=null;
 
     function flow(){return state.activeId?state.flows.find(f=>f.id===state.activeId)||null:null}
@@ -188,7 +191,7 @@
     function selectNode(id){selectedId=id;document.querySelectorAll('[data-node-id].selected').forEach(el=>el.classList.remove('selected'));$(`[data-node-id="${id}"]`)?.classList.add('selected');renderInspector()}
 
     function applyView(){const f=flow();if(!f)return;const v=f.view;$('#world').style.transform=`translate(${v.x}px,${v.y}px) scale(${v.scale})`;$('#zoomText').textContent=`${Math.round(v.scale*100)}%`}
-    function fitAll(){const f=flow();if(!f)return;const c=$('#canvas'),nodes=f.nodes;if(!nodes.length)return;if(c.clientWidth<700){const scale=.58;f.view={scale,x:c.clientWidth*.5-AXIS_X*scale,y:36-190*scale};applyView();scheduleSave();return}let minX=Infinity,minY=Infinity,maxX=-Infinity,maxY=-Infinity;for(const n of nodes){const anchor=n.type==='anchor',w=anchor?24:n.type==='main'?MAIN_W:NODE_W,h=anchor?24:170,x=anchor?AXIS_X-12:n.type==='main'?AXIS_X-MAIN_W/2:n.x,y=anchor?n.y-12:n.y;minX=Math.min(minX,x);minY=Math.min(minY,y);maxX=Math.max(maxX,x+w);maxY=Math.max(maxY,y+h)}const pad=90,scale=clamp(Math.min((c.clientWidth-pad*2)/(maxX-minX),(c.clientHeight-pad*2)/(maxY-minY)),.28,.92);f.view={scale,x:(c.clientWidth-(minX+maxX)*scale)/2,y:(c.clientHeight-(minY+maxY)*scale)/2};applyView();scheduleSave()}
+    function fitAll(){const f=flow();if(!f)return;const c=$('#canvas'),nodes=f.nodes;if(!nodes.length)return;if(c.clientWidth<700){const scale=.58;f.view={scale,x:c.clientWidth*.5-AXIS_X*scale,y:36-190*scale};applyView();scheduleSave();return}let minX=Infinity,minY=Infinity,maxX=-Infinity,maxY=-Infinity;for(const n of nodes){const anchor=n.type==='anchor',el=$(`[data-node-id="${n.id}"]`),w=anchor?24:(el?.offsetWidth||(n.type==='main'?MAIN_W:NODE_W)),h=anchor?24:(el?.offsetHeight||170),x=anchor?AXIS_X-12:n.type==='main'?AXIS_X-MAIN_W/2:n.x,y=anchor?n.y-12:n.y;minX=Math.min(minX,x);minY=Math.min(minY,y);maxX=Math.max(maxX,x+w);maxY=Math.max(maxY,y+h)}const pad=90,scale=clamp(Math.min((c.clientWidth-pad*2)/(maxX-minX),(c.clientHeight-pad*2)/(maxY-minY)),.28,.92);f.view={scale,x:(c.clientWidth-(minX+maxX)*scale)/2,y:(c.clientHeight-(minY+maxY)*scale)/2};applyView();scheduleSave()}
     function screenToWorld(x,y){const r=$('#canvas').getBoundingClientRect(),v=flow().view;return{x:(x-r.left-v.x)/v.scale,y:(y-r.top-v.y)/v.scale}}
     function zoomAt(next,cx,cy){const f=flow();if(!f)return;const c=$('#canvas'),r=c.getBoundingClientRect(),v=f.view,px=cx-r.left,py=cy-r.top,wx=(px-v.x)/v.scale,wy=(py-v.y)/v.scale;next=clamp(next,.3,1.65);v.x=px-wx*next;v.y=py-wy*next;v.scale=next;applyView();scheduleSave()}
 
